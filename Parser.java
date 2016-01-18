@@ -14,29 +14,35 @@ public class Parser {
     return file;
   }
   public String getContent() throws IOException {
+    if(file != null) {
     FileInputStream i = new FileInputStream(file);
-    String output = "";
-    int data;
+    StringBuilder output = new StringBuilder();
+    int data=0;
     while ((data = i.read()) > 0) {
-      output += (char) data;
+      output.append((char) data);
     }
-    return output;
+    i.close();  
+    }
+    return output.toString();
   }
   public String getContentWithoutUnicode() throws IOException {
     FileInputStream i = new FileInputStream(file);
-    String output = "";
-    int data;
+    StringBuilder output = new StringBuilder();
+    int data=0;
     while ((data = i.read()) > 0) {
       if (data < 0x80) {
-        output += (char) data;
+        output.append((char) data);
       }
     }
+    i.close();
     return output;
   }
   public void saveContent(String content) throws IOException {
+    // we can use PrintStream 
     FileOutputStream o = new FileOutputStream(file);
     for (int i = 0; i < content.length(); i += 1) {
       o.write(content.charAt(i));
     }
+    i.close();
   }
 }
